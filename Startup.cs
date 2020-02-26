@@ -34,8 +34,15 @@ namespace ClubWestRFC
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            //Added RazorRunTimeCompliation
-            services.AddRazorPages().AddRazorRuntimeCompilation();
+            //added MVC and disables endpoints
+            services.AddMvc(options=>options.EnableEndpointRouting = false)
+                .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
+
+            //adding controller with views AddRazorRuntimeCompilation
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+            //Remove Razor pages Added RazorRunTimeCompliation
+            //services.AddRazorPages().AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,10 +68,17 @@ namespace ClubWestRFC
             app.UseAuthentication();
             app.UseAuthorization();
 
+
+            //Add MVC (both MVC and razor pages)
+            app.UseMvc();
+
+            /*
+             * Remove endpoints code
+             * 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
             });
         }
-    }
+    }*/
 }
